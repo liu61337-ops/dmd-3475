@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 5 - Functions and the DOM</title>
+
+    <style>
+        h1,h2 {
+            color: blue;
+        }
+
+        #div1 {
+            color: lightblue;
+        }
+
+        #div2 {
+            color: lightgreen;
+        }
+
+        .display-none {
+            display: none !important;
+        }
+
+        .red-text {
+            color: red;
+            transition: ease-in;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Week 05</h1>
+    <h2>This is my h2</h2>
+
+    <div id="div1">
+        <p>This is my first div</p>
+        
+    </div>
+
+    <div id="div2">
+        <h3>This is Div2</h3>
+        <p>This is my second div</p>
+    </div>
+
+
+    <script>
+        // var numberGrade = prompt("What number grade did you get?");
+        //     numberGrade = parseInt(numberGrade);
+        // var letterGrade = "A";
+        
+        // var nextNumberGrade;
+        // var difference = 0;
+
+        // if(numberGrade <90 && numberGrade >= 80) {
+        //     letterGrade = "B";
+        //     nextNumberGrade = 90;
+        // } else if (numberGrade < 80 && numberGrade >= 70) {
+        //     letterGrade = "C";
+        //     nextNumberGrade = 80;
+        // }
+
+        // difference = nextNumberGrade - numberGrade;
+
+        //alert(letterGrade);
+
+        //alert("Your Number Grade Is: " + numberGrade)
+        //alert("You are " + difference + " away from the next Letter Grade");
+        
+        function addTen(number) {
+            console.log(number + 10);
+        }
+
+        function calculateLetterGrade(numberGrade, anotherNumber) {
+            alert(numberGrade)
+            alert(anotherNumber)
+        }
+
+        calculateLetterGrade(90, 400);
+        calculateLetterGrade(40, 10);
+        calculateLetterGrade(45, 100);
+        
+        addTen(50);
+        addTen(45);
+        addTen(500000);
+        addTen("20");
+
+        var header = document.querySelector("h1");
+        console.log(typeof header);
+        header.innerHTML = "This is my new content";
+
+        //header.classList.add("display-none");
+        
+        var myParagraph = document.querySelector("#div2 p");
+            myParagraph.innerHTML.add("Something else entirely!");
+
+        var myH3 = document.querySelector("#div2 h3");
+            myH3.classList.add("red-text");
+
+    </script>
+</body>
+</html>
