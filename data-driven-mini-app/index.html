@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minimal To-Do List</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f5f6f8;
+      font-family: Arial, sans-serif;
+      color: #222;
+      padding: 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 24px;
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    input {
+      flex: 1;
+      padding: 12px 14px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 14px;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input:focus {
+      border-color: #999;
+    }
+
+    .add-btn {
+      border: none;
+      background: #222;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .add-btn:hover {
+      opacity: 0.9;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      background: #f8f8f8;
+      border-radius: 14px;
+      margin-bottom: 12px;
+      font-size: 15px;
+    }
+
+    .task-text {
+      word-break: break-word;
+      padding-right: 12px;
+    }
+
+    .delete-btn {
+      border: none;
+      background: white;
+      color: #444;
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: 0.2s;
+    }
+
+    .delete-btn:hover {
+      background: #ececec;
+    }
+
+    .empty {
+      text-align: center;
+      color: #999;
+      font-size: 14px;
+      padding: 16px 0 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>To-Do List</h1>
+    <p class="subtitle">Task tracker</p>
+
+    <div class="top-row">
+      <span>Total Tasks</span>
+      <span id="count">0</span>
+    </div>
+
+    <div class="input-row">
+      <input type="text" id="taskInput" placeholder="Enter a task" />
+      <button class="add-btn" id="addBtn">Add</button>
+    </div>
+
+    <ul id="taskList"></ul>
+  </div>
+
+  <script>
+    let tasks = ["Finish homework", "Buy groceries", "Call mom"];
+
+    const taskInput = document.getElementById("taskInput");
+    const addBtn = document.getElementById("addBtn");
+    const taskList = document.getElementById("taskList");
+    const count = document.getElementById("count");
+
+    function render() {
+      taskList.innerHTML = "";
+
+      if (tasks.length === 0) {
+     const emptyItem = document.createElement("li");
+     emptyItem.textContent = "No tasks yet";
+     emptyItem.classList.add("empty");
+    taskList.appendChild(emptyItem);
+     } else {
+     tasks.forEach((task, index) => {
+    const li = document.createElement("li");
+
+    const taskText = document.createElement("span");
+    taskText.classList.add("task-text");
+    taskText.textContent = `${index + 1}. ${task}`;
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.classList.add("delete-btn");
+
+    deleteBtn.addEventListener("click", function () {
+      tasks.splice(index, 1);
+      render();
+    });
+
+    li.appendChild(taskText);
+    li.appendChild(deleteBtn);
+    taskList.appendChild(li);
+  });
+}
+
+      count.textContent = tasks.length;
+    }
+
+    function addTask() {
+      const newTask = taskInput.value.trim();
+
+      if (newTask === "") {
+        return;
+      }
+
+      tasks.push(newTask);
+      taskInput.value = "";
+      taskInput.focus();
+      render();
+    }
+
+    addBtn.addEventListener("click", addTask);
+
+    render();
+  </script>
+</body>
+</html>
