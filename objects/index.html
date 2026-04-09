@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning about Objects</title>
+</head>
+<body>
+    <h1>Learning about Objects</h1>
+
+    <div id="directory"></div>
+
+    <script>
+        var age = 37;
+        var name = "John";
+        var list = {};
+        var isOld = true;
+
+        var John = {
+            name: "John",
+            age: 37,
+            list: ["Teach Class", "Eat Lunch"],
+            isOld: true
+        };
+
+        console.log(John);
+
+        var directory = [
+            {
+                name: "John",
+                role: "Faculty"
+            },
+            {
+                name: "Jane",
+                role: "Student"
+            },
+            {
+                name: "Jack",
+                role: "Student"
+            }
+        ];
+
+        var directoryElement = document.getElementById("directory");
+
+        var addPersonForm = document.createElement("form");
+        addPersonForm.id = "add-person-form";
+
+        var nameInput = document.createElement("input");
+        nameInput.type = "text";
+        nameInput.id = "new-name";
+        nameInput.placeholder = "Name";
+
+        var roleInput = document.createElement("input");
+        roleInput.type = "text";
+        roleInput.id = "new-role";
+        roleInput.placeholder = "Role";
+
+        var addButton = document.createElement("button");
+        addButton.type = "submit";
+        addButton.textContent = "Add Person";
+
+        addPersonForm.appendChild(nameInput);
+        addPersonForm.appendChild(roleInput);
+        addPersonForm.appendChild(addButton);
+
+        document.body.insertBefore(addPersonForm, directoryElement);
+
+        function renderDirectory() {
+            directoryElement.innerHTML = "";
+
+            directory.forEach(function(person, index) {
+                var row = document.createElement("div");
+
+                var p = document.createElement("p");
+                p.textContent = person.name + " is a " + person.role;
+                row.appendChild(p);
+
+                var editButton = document.createElement("button");
+                editButton.type = "button";
+                editButton.textContent = "Edit";
+
+                editButton.addEventListener("click", function() {
+                    var updatedName = prompt("Edit name:", person.name);
+                    if (updatedName === null) return;
+                    updatedName = updatedName.trim();
+
+                    var updatedRole = prompt("Edit role:", person.role);
+                    if (updatedRole === null) return;
+                    updatedRole = updatedRole.trim();
+
+                    if (!updatedName || !updatedRole) {
+                        return;
+                    }
+
+                    directory[index].name = updatedName;
+                    directory[index].role = updatedRole;
+
+                    renderDirectory();
+                });
+
+                row.appendChild(editButton);
+                directoryElement.appendChild(row);
+            });
+        }
+
+        addPersonForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            var newName = nameInput.value.trim();
+            var newRole = roleInput.value.trim();
+
+            if (!newName || !newRole) {
+                return;
+            }
+
+            directory.push({
+                name: newName,
+                role: newRole
+            });
+
+            nameInput.value = "";
+            roleInput.value = "";
+            nameInput.focus();
+
+            renderDirectory();
+        });
+
+        renderDirectory();
+    </script>
+</body>
+</html>
