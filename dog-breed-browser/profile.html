@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dog Breed Profile</title>
+</head>
+<body>
+    <h1>Dog Breed Profile</h1>
+
+    <div id="breedProfile">Loading...</div>
+
+    <p>
+        <a href="index.html">Back to Breed List</a>
+    </p>
+
+    <script>
+        const breedProfile = document.getElementById("breedProfile");
+
+        function getBreedIdFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get("id");
+        }
+
+        function renderBreed(breed) {
+            breedProfile.innerHTML = `
+                <h2>${breed.attributes.name}</h2>
+                <p><strong>ID:</strong> ${breed.id}</p>
+                <p><strong>Description:</strong> ${breed.attributes.description}</p>
+                <p><strong>Life:</strong> ${breed.attributes.life.min} - ${breed.attributes.life.max} years</p>
+                <p><strong>Male Weight:</strong> ${breed.attributes.male_weight.min} - ${breed.attributes.male_weight.max}</p>
+                <p><strong>Female Weight:</strong> ${breed.attributes.female_weight.min} - ${breed.attributes.female_weight.max}</p>
+                <p><strong>Hypoallergenic:</strong> ${breed.attributes.hypoallergenic}</p>
+            `;
+        }
+
+        function getDogBreedProfile() {
+            const selectedId = getBreedIdFromUrl();
+
+            fetch("https://dogapi.dog/api/v2/breeds")
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    const breeds = data.data;
+
+                    let matchedBreed = null;
+
+                    breeds.forEach(function (breed) {
+                        if (breed.id === selectedId) {
+                            matchedBreed = breed;
+                        }
+                    });
+
+                    if (matchedBreed) {
+                        console.log(matchedBreed);
+                        renderBreed(matchedBreed);
+                    } else {
+                        breedProfile.innerHTML = "<p>Breed not found.</p>";
+                    }
+                })
+                .catch(function (error) {
+                    console.log("Error fetching breed profile:", error);
+                    breedProfile.innerHTML = "<p>Sorry, failed to load breed profile.</p>";
+                });
+        }
+
+        getDogBreedProfile();
+    </script>
+</body>
+</html>

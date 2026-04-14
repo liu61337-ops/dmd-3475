@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dog Breed Browser</title>
+</head>
+<body>
+    <h1>Dog Breed Browser</h1>
+    <p>Browser dog breeds below:</p>
+
+    <ul id="breedList"></ul>
+    <script>
+        const breedListElement = document.getElementById("breedList");
+
+        function renderBreeds(breeds) {
+            breedList.innerHTML = "";
+
+            breeds.forEach(function(breed) {
+                const li = document.createElement("li");
+             
+                const breedName = breed.attributes.name;
+                const breedId = breed.id;
+
+                li.innerHTML = `
+                    <strong>${breedName}</strong>
+                    <a href="profile.html?id=${breedId}">View Profile</a>
+                `;
+                breedListElement.appendChild(li);
+            });
+        }
+
+        function getDogBreeds() {
+            fetch("https://dogapi.dog/api/v2/breeds")
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                const breeds = data.data;
+                renderBreeds(breeds);
+                renderBreeds(breeds);
+            })
+            .catch(function(error) {
+                console.error("Error fetching dog breeds:", error);
+                breedListElement.innerHTML = "<li>Failed to load dog breeds. Please try again later.</li>";
+            });
+        }
+
+        getDogBreeds();
+    </script>
+</body>
+</html>
