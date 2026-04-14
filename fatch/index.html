@@ -1,0 +1,102 @@
+x<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning About Fetch</title>
+</head>
+<body>
+    <h1>Learning About Fetch</h1>
+
+    <h2>Cat Facts</h2>
+    <ul id="catFacts"></ul>
+
+    <h2>Dog Breeds</h2>
+    <ul id="dogBreeds"></ul>
+
+    <script>
+
+        var simpleObject = {
+            name: "John",
+            role: "Faculty"
+        };
+
+        console.log(simpleObject);
+
+     
+        var catFacts = [];
+        var dogBreeds = [];
+
+      
+        function renderCatFacts() {
+            const ulElement = document.getElementById("catFacts");
+            ulElement.innerHTML = "";
+
+            catFacts.forEach(function(fact) {
+                const li = document.createElement("li");
+                li.textContent = fact;
+                ulElement.appendChild(li);
+            });
+        }
+
+      
+        function renderDogBreeds() {
+            const ulElement = document.getElementById("dogBreeds");
+            ulElement.innerHTML = "";
+
+            dogBreeds.forEach(function(dog) {
+                const li = document.createElement("li");
+
+                li.innerHTML = `
+                    <strong>${dog.attributes.name}</strong><br>
+                    ${dog.attributes.description}<br>
+                    Female max weight: ${dog.attributes.female_weight.max}
+                `;
+
+                ulElement.appendChild(li);
+            });
+        }
+
+
+        function getCatFacts(count) {
+            fetch(`https://meowfacts.herokuapp.com?count=${count}`)
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    catFacts = data.data;
+                    console.log(catFacts);
+                    renderCatFacts();
+                })
+                .catch(function(error) {
+                    console.log("Cat API error:", error);
+                });
+        }
+
+       
+        function getDogBreeds() {
+            fetch("https://dogapi.dog/api/v2/breeds?page[size]=5")
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    dogBreeds = data.data;
+
+                    console.log(dogBreeds[0]);
+                    console.log(dogBreeds[0].attributes.name);
+                    console.log(dogBreeds[0].attributes.description);
+                    console.log(dogBreeds[0].attributes.female_weight.max);
+
+                    renderDogBreeds();
+                })
+                .catch(function(error) {
+                    console.log("Dog API error:", error);
+                });
+        }
+
+       
+        getCatFacts(1);
+        getDogBreeds();
+    </script>
+</body>
+</html>
