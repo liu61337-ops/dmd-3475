@@ -1,6 +1,3 @@
-/* =============================
-   ELEMENTS
-============================= */
 const memeForm = document.getElementById("memeForm");
 const titleInput = document.getElementById("titleInput");
 const categoryInput = document.getElementById("categoryInput");
@@ -37,15 +34,11 @@ const editLikes = document.getElementById("editLikes");
 
 const resetBtn = document.getElementById("resetBtn");
 
-/* =============================
-   STATE
-============================= */
+
 let currentImage = "";
 let editingId = null;
 
-/* =============================
-   DEFAULT MEMES
-============================= */
+
 const defaultMemes = [
   {
     id: "default-1",
@@ -71,9 +64,7 @@ const defaultMemes = [
   }
 ];
 
-/* =============================
-   LOAD DATA
-============================= */
+
 let memes = JSON.parse(localStorage.getItem("pawMemes"));
 
 if (!Array.isArray(memes) || memes.length === 0) {
@@ -81,9 +72,7 @@ if (!Array.isArray(memes) || memes.length === 0) {
   localStorage.setItem("pawMemes", JSON.stringify(memes));
 }
 
-/* =============================
-   API FETCH
-============================= */
+
 async function fetchRandomDogImage() {
   try {
     previewStatus.textContent = "Loading dog image...";
@@ -101,16 +90,12 @@ async function fetchRandomDogImage() {
   }
 }
 
-/* =============================
-   SAVE
-============================= */
+
 function saveMemes() {
   localStorage.setItem("pawMemes", JSON.stringify(memes));
 }
 
-/* =============================
-   PREVIEW
-============================= */
+
 function updatePreviewText() {
   const pos = textPositionInput.value;
   const fontSize = Number(fontSizeInput.value);
@@ -138,9 +123,6 @@ function updatePreviewText() {
   }
 }
 
-/* =============================
-   FILTER / SORT
-============================= */
 function getProcessedMemes() {
   let result = [...memes];
 
@@ -168,9 +150,6 @@ function getProcessedMemes() {
   return result;
 }
 
-/* =============================
-   RENDER
-============================= */
 function renderMemes() {
   if (!memeGrid) return;
 
@@ -219,9 +198,6 @@ function renderMemes() {
   addCardEvents();
 }
 
-/* =============================
-   EVENTS ON CARDS
-============================= */
 function addCardEvents() {
   document.querySelectorAll(".like-btn").forEach(btn =>
     btn.onclick = () => {
@@ -249,9 +225,6 @@ function addCardEvents() {
   );
 }
 
-/* =============================
-   CREATE
-============================= */
 memeForm.addEventListener("submit", e => {
   e.preventDefault();
 
@@ -273,9 +246,7 @@ memeForm.addEventListener("submit", e => {
   renderMemes();
 });
 
-/* =============================
-   TEXT WRAP (🔥)
-============================= */
+
 function drawText(ctx, text, x, y, maxWidth, lineHeight, bottom=false) {
   const words = text.split(" ");
   let line = "";
@@ -302,9 +273,6 @@ function drawText(ctx, text, x, y, maxWidth, lineHeight, bottom=false) {
   });
 }
 
-/* =============================
-   DOWNLOAD
-============================= */
 function downloadMeme(id) {
   const meme = memes.find(m => m.id === id);
 
@@ -346,9 +314,6 @@ function downloadMeme(id) {
   };
 }
 
-/* =============================
-   RESET
-============================= */
 if (resetBtn) {
   resetBtn.onclick = () => {
     memes = JSON.parse(JSON.stringify(defaultMemes));
@@ -357,9 +322,6 @@ if (resetBtn) {
   };
 }
 
-/* =============================
-   OTHER EVENTS
-============================= */
 randomDogBtn?.addEventListener("click", fetchRandomDogImage);
 
 searchInput.oninput = renderMemes;
@@ -371,8 +333,5 @@ bottomTextInput.oninput = updatePreviewText;
 textPositionInput.onchange = updatePreviewText;
 fontSizeInput.oninput = updatePreviewText;
 
-/* =============================
-   INIT
-============================= */
 renderMemes();
 updatePreviewText();
