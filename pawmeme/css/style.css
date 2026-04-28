@@ -426,3 +426,34 @@ select {
 #resetBtn:hover {
   background: #ffd6d6;
 }
+
+.download-btn {
+  background: #dff5e3;
+  color: #2e7d32;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+
+.download-btn:hover {
+  background: #c8ebcf;
+  transform: translateY(-1px);
+}
+
+
+.download-btn:active {
+  transform: scale(0.96);
+}
+
+
+.meme-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
